@@ -12,6 +12,14 @@ class RouteModel : public Model {
   public:
     class Node : public Model::Node {
       public:
+        /*
+        * function to compare two nodes
+        */
+        //bool operator > ( const RouteModel::Node* Other ) 
+        //{
+        //  return (this->g_value + this->h_value) > (Other->g_value + Other->h_value);
+        //}
+
         Node * parent = nullptr;
         float h_value = std::numeric_limits<float>::max();
         float g_value = 0.0;
@@ -23,6 +31,8 @@ class RouteModel : public Model {
             return std::sqrt(std::pow((x - other.x), 2) + std::pow((y - other.y), 2));
         }
 
+        int getIndex() { return index; }
+        
         Node(){}
         Node(int idx, RouteModel * search_model, Model::Node node) : Model::Node(node), parent_model(search_model), index(idx) {}
 

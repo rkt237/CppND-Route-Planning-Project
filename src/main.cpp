@@ -10,6 +10,24 @@
 
 using namespace std::experimental;
 
+// Print function
+void PrintNodeList( const std::vector<RouteModel::Node>& list )
+{
+    std::cout << "node's list : \n";
+    std::cout << "index   x      y      g      h      visited" << "\n"; 
+    for ( auto node : list )
+    {
+        std::cout << std::setw(6) << node.getIndex();
+        std::cout << std::setprecision(3) << std::setw(7) << node.x;
+        std::cout << std::setprecision(3) << std::setw(7) << node.y;
+        std::cout << std::setprecision(3) << std::setw(7) << node.g_value;
+        std::cout << std::setprecision(3) << std::setw(7) << node.h_value;
+        std::cout << std::setw(7) << node.visited;
+        std::cout << "\n";
+    }
+    std::cout << "\n";
+}
+
 static std::optional<std::vector<std::byte>> ReadFile(const std::string &path)
 {   
     std::ifstream is{path, std::ios::binary | std::ios::ate};
@@ -55,15 +73,24 @@ int main(int argc, const char **argv)
     // TODO 1: Declare floats `start_x`, `start_y`, `end_x`, and `end_y` and get
     // user input for these values using std::cin. Pass the user input to the
     // RoutePlanner object below in place of 10, 10, 90, 90.
+    float start_x = 0.0;
+    float start_y = 0.0;
+    float end_x = 0.0;
+    float end_y = 0.0;
+
+    std::cout << "Get the start and end node (start_x star_y end_x end_y) : ";
+    std::cin >> start_x >> start_y >> end_x >> end_y;
 
     // Build Model.
     RouteModel model{osm_data};
 
     // Create RoutePlanner object and perform A* search.
-    RoutePlanner route_planner{model, 10, 10, 90, 90};
+    RoutePlanner route_planner{model, start_x, start_y, end_x, end_y};
     route_planner.AStarSearch();
 
     std::cout << "Distance: " << route_planner.GetDistance() << " meters. \n";
+
+    PrintNodeList ( model.path );
 
     // Render results of search.
     Render render{model};

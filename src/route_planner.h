@@ -4,13 +4,15 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <algorithm>
 #include "route_model.h"
 
-
+   
 class RoutePlanner {
   public:
     RoutePlanner(RouteModel &model, float start_x, float start_y, float end_x, float end_y);
     // Add public variables or methods declarations here.
+
     float GetDistance() const {return distance;}
     void AStarSearch();
 
@@ -21,7 +23,6 @@ class RoutePlanner {
     RouteModel::Node *NextNode();
 
   private:
-    // Add private variables or methods declarations here.
     std::vector<RouteModel::Node*> open_list;
     RouteModel::Node *start_node;
     RouteModel::Node *end_node;
